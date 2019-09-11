@@ -1368,7 +1368,7 @@ static int mob_ai_sub_hard_slavemob(struct mob_data *md, int64 tick)
 			nullpo_retr(0, m_md);
 			if (map->search_freecell(&md->bl, bl->m, &x, &y, MOB_SLAVEDISTANCE, MOB_SLAVEDISTANCE, 1)
 			    && (battle_config.slave_chase_masters_chasetarget == 0 || !mob->is_in_battle_state(m_md))
-			    && unit->walktoxy(&md->bl, x, y, 0))
+			    && unit->walktoxy(&md->bl, x, y, 0) == 0)
 				return 1;
 		}
 	} else if (bl->m != md->bl.m && map_flag_gvg(md->bl.m)) {
@@ -1483,9 +1483,9 @@ static int mob_randomwalk(struct mob_data *md, int64 tick)
 		x+=md->bl.x;
 		y+=md->bl.y;
 
-		if (((x != md->bl.x) || (y != md->bl.y)) && map->getcell(md->bl.m, &md->bl, x, y, CELL_CHKPASS) && unit->walktoxy(&md->bl, x, y, 8)) {
+		if (((x != md->bl.x) || (y != md->bl.y)) && map->getcell(md->bl.m, &md->bl, x, y, CELL_CHKPASS)
+		    && unit->walktoxy(&md->bl, x, y, 8) == 0)
 			break;
-		}
 	}
 	if(i==retrycount){
 		md->move_fail_count++;
