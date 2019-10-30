@@ -1192,7 +1192,7 @@ static struct s_skill_unit_layout *skill_get_unit_layout(uint16 skill_id, uint16
 
 	enum unit_dir dir = UNIT_DIR_EAST; // default aegis direction
 	if (!(src->x == x && src->y == y))
-		map->calc_dir(src, x, y);
+		dir = map->calc_dir(src, x, y);
 
 	if (skill_id == MG_FIREWALL)
 		return &skill->dbs->unit_layout [skill->firewall_unit_pos + dir];
