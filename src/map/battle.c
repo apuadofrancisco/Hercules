@@ -3235,7 +3235,7 @@ static int64 battle_calc_damage(struct block_list *src, struct block_list *bl, s
 			Assert_ret(dir >= UNIT_DIR_FIRST && dir < UNIT_DIR_MAX);
 			if (unit->movepos(bl, (src->x - dirx[dir]), (src->y - diry[dir]), 1, 1) ) {
 				clif->slide(bl, (src->x - dirx[dir]), (src->y - diry[dir]));
-				unit->setdir(bl, dir);
+				unit->set_dir(bl, dir);
 			}
 			d->dmg_lv = ATK_DEF;
 			status_change_end(bl, SC_LIGHTNINGWALK, INVALID_TIMER);
