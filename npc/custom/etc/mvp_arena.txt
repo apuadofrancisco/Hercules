@@ -9,13 +9,13 @@
 //===== Additional Comments: =================================
 //= 1.0 - First version of script
 //= 1.1 - Optimised The MVP arena [massdriller]
-//= 1.2 - NPC in prontera [Silent]
+//= 1.2 - NPC in infest_town [Silent]
 //= 1.3 - Removed Duplicates
 //= 1.4 - Optimized, text edited [Euphy]
 //============================================================
 
 // Entrance
-prontera,154,197,3	script	MVP Warper	8_M_JPNMASTER,{
+infest_town,94,159,5	script	MVP Warper	8_M_JPNMASTER,{
 	mes "[ ^0065DFMVP Warper^000000 ]";
 	mes "Would you like to enter";
 	mes "the MVP Arena?";
@@ -29,7 +29,7 @@ quiz_00,49,31,4	script	MVP Arena Guide	4_M_TWTEAMAN,{
 	mes "[ ^0065DFMVP Arena Guide^000000 ]";
 	mes "Welcome and behold this sacred place. Here you will find out if you truly have what it takes to call yourself a warrior.";
 	next;
-	switch(select("Information","Heal me!","Return to Prontera","Cancel")) {
+	switch(select("Information","Heal me!","Return to Infest Town","Cancel")) {
 	case 1:
 		mes "[ ^0065DFMVP Arena Guide^000000 ]";
 		mes "There are four Keepers, and each can spawn four different MVPs.";
@@ -40,7 +40,7 @@ quiz_00,49,31,4	script	MVP Arena Guide	4_M_TWTEAMAN,{
 		percentheal 100,100;
 		close;
 	case 3:
-		warp "prontera",156,179;
+		warp "infest_town",39,165;
 		close;
 	case 4:
 		close;
@@ -79,9 +79,12 @@ function	script	Protector	{
 	case 2:
 		specialeffect(EF_HEAL2, AREA, playerattached());
 		percentheal 100,100;
+		sc_start SC_BLESSING,180000,5;
+		sc_start SC_INC_AGI,180000,5;
+		dispbottom "Level 3 Increase Agi and Blessing";
 		close;
 	case 3:
-		warp "prontera",156,179;
+		warp "infest_town",39,165;
 		end;
 	}
 }

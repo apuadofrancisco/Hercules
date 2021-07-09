@@ -1183,3 +1183,6 @@ que_thr
 //
 //mymap	1250
 //mymap-2
+
+//infest town
+infest_town	1250

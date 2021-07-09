@@ -7302,7 +7302,8 @@ static int pc_need_status_point(struct map_session_data *sd, int type, int val)
 
 	for ( ; low < high; low++ )
 #ifdef RENEWAL // renewal status point cost formula
-		sp += (low < 100) ? (2 + (low - 1) / 10) : (16 + 4 * ((low - 100) / 5));
+		//sp += (low < 100) ? (2 + (low - 1) / 10) : (16 + 4 * ((low - 100) / 5));
+		sp += ( 1 + (low + 9) / 10 ); //infestRO
 #else
 		sp += ( 1 + (low + 9) / 10 );
 #endif
@@ -7326,7 +7327,8 @@ static int pc_maxparameterincrease(struct map_session_data *sd, int type)
 
 	while (final <= pc_maxparameter(sd) && status_points >= 0) {
 #ifdef RENEWAL // renewal status point cost formula
-		status_points -= (final < 100) ? (2 + (final - 1) / 10) : (16 + 4 * ((final - 100) / 5));
+		//status_points -= (final < 100) ? (2 + (final - 1) / 10) : (16 + 4 * ((final - 100) / 5));
+		status_points -= ( 1 + (final + 9) / 10 ); //infestRO
 #else
 		status_points -= ( 1 + (final + 9) / 10 );
 #endif
@@ -10553,9 +10555,17 @@ static int pc_unequipitem(struct map_session_data *sd, int n, int flag)
 	pc->unequipitem_pos(sd, n, pos);
 	clif->unequipitemack(sd, n, pos, UIA_SUCCESS);
 
+	/*
 	status_change_end(&sd->bl, SC_HEAT_BARREL, INVALID_TIMER);
 	if ((pos & EQP_ARMS) != 0 && sd->weapontype1 == W_FIST && sd->weapontype2 == W_FIST
 	    && (sd->sc.data[SC_TK_SEVENWIND] == NULL || sd->sc.data[SC_ASPERSIO] != NULL)) { // Check for Seven Wind. (But not level seven!)
+		skill->enchant_elemental_end(&sd->bl, -1);
+	}
+	*/
+
+	//infestRO - remove element on unequip. seven wind lvl 1-6
+	status_change_end(&sd->bl, SC_HEAT_BARREL, INVALID_TIMER);
+	if ((pos & EQP_ARMS) != 0 && sd->weapontype1 == W_FIST && sd->weapontype2 == W_FIST) { // Check for Seven Wind. (But not level seven!)
 		skill->enchant_elemental_end(&sd->bl, -1);
 	}
 

@@ -1734,7 +1734,8 @@ static int char_make_new_char_sql(struct char_session_data *sd, const char *name
 		return flag;
 
 	switch (starting_class) {
-		case JOB_SUMMONER:
+		//case JOB_SUMMONER:
+		case JOB_BABY:
 		case JOB_NOVICE:
 			break;
 		default:

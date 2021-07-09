@@ -894,6 +894,10 @@ ACMD(storage)
  *------------------------------------------*/
 ACMD(guildstorage)
 {
+	int i;
+    struct guild* g;
+    g = sd->guild;
+
 	if (!sd->status.guild_id) {
 		clif->message(fd, msg_fd(fd,252)); // You are not in a guild.
 		return false;
@@ -916,6 +920,12 @@ ACMD(guildstorage)
 		clif->message(fd, msg_fd(fd, 1161)); // You currently cannot open your storage. (there is no other messages...)
 		return false;
 	}
+
+	//infestRO - guild storage permission
+	if ((i = guild->getposition(g, sd)) < 0 || !(g->position[i].mode & GPERM_STORAGE)) {
+        clif->message(fd, msg_fd(fd, 1202)); // You do not have permission to use the guild storage.
+        return false;
+    }
 
 	if( gstorage->open(sd) ) {
 		clif->message(fd, msg_fd(fd,1201)); // Your guild's storage has already been opened by another member, try again later.
@@ -1941,7 +1951,7 @@ ACMD(go)
 		{ MAP_MORROC,      156,  93, 4 }, //  1 = Morroc
 		{ MAP_GEFFEN,      119,  59, 3 }, //  2 = Geffen
 		{ MAP_PAYON,       162, 233, 3 }, //  3 = Payon
-		{ MAP_ALBERTA,     192, 147, 3 }, //  4 = Alberta
+		{ MAP_ALBERTA,     22, 234, 3 }, //  4 = Alberta
 #ifdef RENEWAL
 		{ MAP_IZLUDE,      128, 146, 3 }, //  5 = Izlude (Renewal)
 #else
@@ -1950,12 +1960,12 @@ ACMD(go)
 		{ MAP_ALDEBARAN,   140, 131, 3 }, //  6 = Aldebaran
 		{ MAP_LUTIE,       147, 134, 3 }, //  7 = Lutie
 		{ MAP_COMODO,      209, 143, 3 }, //  8 = Comodo
-		{ MAP_YUNO,        157,  51, 3 }, //  9 = Juno
+		{ MAP_YUNO,        158,  184, 3 }, //  9 = Juno
 		{ MAP_AMATSU,      198,  84, 3 }, // 10 = Amatsu
 		{ MAP_GONRYUN,     160, 120, 3 }, // 11 = Kunlun
 		{ MAP_UMBALA,       89, 157, 3 }, // 12 = Umbala
 		{ MAP_NIFLHEIM,     21, 153, 3 }, // 13 = Niflheim
-		{ MAP_LOUYANG,     217,  40, 3 }, // 14 = Luoyang
+		{ MAP_LOUYANG,     217,  100, 3 }, // 14 = Luoyang
 		{ MAP_NOVICE,       53, 111, 3 }, // 15 = Training Grounds
 		{ MAP_JAIL,         23,  61, 3 }, // 16 = Prison
 		{ MAP_JAWAII,      249, 127, 3 }, // 17 = Jawaii
@@ -1969,14 +1979,15 @@ ACMD(go)
 		{ MAP_MOSCOVIA,    223, 184, 3 }, // 25 = Moscovia
 		{ MAP_MIDCAMP,     180, 240, 3 }, // 26 = Midgard Camp
 		{ MAP_MANUK,       282, 138, 3 }, // 27 = Manuk
-		{ MAP_SPLENDIDE,   197, 176, 3 }, // 28 = Splendide
-		{ MAP_BRASILIS,    182, 239, 3 }, // 29 = Brasilis
+		{ MAP_SPLENDIDE,   193, 155, 3 }, // 28 = Splendide
+		{ MAP_BRASILIS,    196, 219, 3 }, // 29 = Brasilis
 		{ MAP_DICASTES,    198, 187, 3 }, // 30 = El Dicastes
 		{ MAP_MORA,         44, 151, 4 }, // 31 = Mora
 		{ MAP_DEWATA,      200, 180, 3 }, // 32 = Dewata
 		{ MAP_MALANGDO,    140, 114, 5 }, // 33 = Malangdo Island
 		{ MAP_MALAYA,      242, 211, 5 }, // 34 = Malaya Port
 		{ MAP_ECLAGE,      110,  39, 3 }, // 35 = Eclage
+		{ MAP_INFEST_TOWN,      39,  165, 3 }, // 36 = Infest Town
 	};
 
 	memset(map_name, '\0', sizeof(map_name));

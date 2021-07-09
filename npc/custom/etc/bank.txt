@@ -14,14 +14,18 @@
 //============================================================
 
 prontera,132,217,5	script	Banker	4_M_MANAGER,{
-set @cost,500;
+set @cost,0;
 mes "[Banker]";
 mes "Welcome to the First Bank of Prontera. How can I help you today?";
+mes " ";
+mes "^FF0000Current Bank Balance:^000000 " + #bankstorage +"z.";
 next;
-switch(select("I'd like to make a deposit.", "I'd like to make a withdrawl.", "What's my current balance?", "Cancel")) {
+switch(select("I'd like to make a deposit.", "I'd like to make a withdrawl.", "Cancel")) {
 	case 1:
 		mes "[Banker]";
-		mes "Very well... How much would you like to deposit? The maximum you can deposit at once is 999,999 Zeny.";
+		mes "Very well... How much would you like to deposit?";
+		mes " ";
+		mes "^FF0000Current Bank Balance:^000000 " + #bankstorage +"z.";
 		next;
 		if (@cost > 0) {
 			mes "[Banker]";
@@ -30,14 +34,17 @@ switch(select("I'd like to make a deposit.", "I'd like to make a withdrawl.", "W
 		}
 		input(@deposit);
 		if (@deposit < 1) {
+			mes "[Banker]";
 			mes "Make sure you ask me to deposit a real amount.";
 			close;
 		}
 		if (@deposit > Zeny) {
+			mes "[Banker]";
 			mes "It does not appear like you have the amount of zeny you're trying to deposit!";
 			close;
 		}
 		if (@deposit > Zeny - @cost) {
+			mes "[Banker]";
 			mes "You need " + @cost + " Zeny to cover the transaction fee!";
 			close;
 		}
@@ -50,7 +57,9 @@ switch(select("I'd like to make a deposit.", "I'd like to make a withdrawl.", "W
 
 	case 2:
 		mes "[Banker]";
-		mes "Very well... How much would you like to withdraw? The maximum you can withdraw at one time is 999,999 Zeny";
+		mes "Very well... How much would you like to withdraw?";
+		mes " ";
+		mes "^FF0000Current Bank Balance:^000000 " + #bankstorage +"z.";
 		next;
 		if (@cost > 0) {
 			mes "[Banker]";
@@ -59,10 +68,12 @@ switch(select("I'd like to make a deposit.", "I'd like to make a withdrawl.", "W
 		}
 		input(@withdrawl);
 		if (@withdrawl < 1) {
+			mes "[Banker]";
 			mes "Please don't play games. I need a real amount to withdraw.";
 			close;
 		}
 		if (@withdrawl > #bankstorage) {
+			mes "[Banker]";
 			mes "I show you only have ^00FF00" + #bankstorage +"^000000 zeny in your account!";
 			close;
 		}
@@ -98,16 +109,9 @@ switch(select("I'd like to make a deposit.", "I'd like to make a withdrawl.", "W
 		close;
 	case 3:
 		mes "[Banker]";
-		mes "Hmmmm let me check some paper work.";
-		next;
-		mes "*Rustle, Rustle*";
-		next;
-		mes "[Banker]";
-		mes "You currently have " + #bankstorage + " Zeny in your account.";
-		close;
-	case 4:
-		mes "[Banker]";
 		mes "Very well... come again soon.";
 		close;
 	}
 }
+
+infest_town,74,159,5	duplicate(Banker)	Bank Manager	4_M_MANAGER

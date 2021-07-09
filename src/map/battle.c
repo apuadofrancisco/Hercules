@@ -4262,7 +4262,15 @@ static struct Damage battle_calc_misc_attack(struct block_list *src, struct bloc
 		if( sc && sc->data[SC_EDP] )
 			ratio >>= 1;
 #endif
-		md.damage = (matk + atk) * ratio / 100;
+		//InfestRO SBK EDP 100%
+		if (sc && sc->data[SC_EDP])	{
+
+			int64 infestROSBKEDP = (((matk + atk) * ratio / 100) * ((25 * (sc->data[SC_EDP]->val1 + 3)) - 75)) / 100; 
+			md.damage = ((matk + atk) * ratio / 100) + infestROSBKEDP;
+		}
+		else{
+			md.damage = (matk + atk) * ratio / 100;
+		}
 		md.damage -= totaldef;
 #endif
 		}
@@ -5437,8 +5445,10 @@ static struct Damage battle_calc_weapon_attack(struct block_list *src, struct bl
 			if( sc->data[SC_EDP] ){
 				switch(skill_id){
 					case AS_SPLASHER: // Needs more info
-					case ASC_BREAKER:
-					case ASC_METEORASSAULT: break;
+					//infestRO - added EDP effect for SBK and MA
+					//case ASC_BREAKER:
+					//case ASC_METEORASSAULT: 
+					break;
 					default:
 						ATK_ADDRATE(sc->data[SC_EDP]->val3);
 				}

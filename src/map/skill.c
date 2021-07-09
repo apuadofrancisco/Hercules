@@ -2518,9 +2518,14 @@ static int skill_additional_effect(struct block_list *src, struct block_list *bl
 				!battle->check_range(src, tbl, skill->get_range2(src, temp,auto_skill_lv) + (temp == RG_CLOSECONFINE?0:1)) )
 				continue;
 
+			/* InfestRO - continous sonic blow on injustice card
 			if (temp == AS_SONICBLOW)
 				pc_stop_attack(sd); //Special case, Sonic Blow autospell should stop the player attacking.
 			else if (temp == PF_SPIDERWEB) //Special case, due to its nature of coding.
+				type = CAST_GROUND;
+			*/
+			
+			if (temp == PF_SPIDERWEB) //Special case, due to its nature of coding.
 				type = CAST_GROUND;
 
 			sd->auto_cast_current.type = AUTOCAST_TEMP;
@@ -7092,7 +7097,20 @@ static int skill_castend_nodamage_id(struct block_list *src, struct block_list *
 				sc_start(src,bl,type,100,skill_lv,skill->get_time(skill_id,skill_lv)));
 			break;
 
+		//infestRO
 		case ITEM_ENCHANTARMS:
+			switch(skill->get_ele(skill_id,skill_lv)) {
+				case ELE_NEUTRAL : break; //1
+				case ELE_WATER  : type = SC_PROPERTYWATER;   break; //2
+				case ELE_EARTH : type = SC_PROPERTYGROUND;  break; //3
+				case ELE_FIRE  : type = SC_PROPERTYFIRE;   break; //4
+				case ELE_WIND : type = SC_PROPERTYWIND;  break; //5
+				case ELE_POISON  : type = SC_ENCHANTPOISON; break; //6
+				case ELE_HOLY  : type = SC_ASPERSIO;     break; //7
+				case ELE_DARK : type = SC_PROPERTYDARK;     break; //8
+				case ELE_GHOST  : break; //9
+				case ELE_UNDEAD  : type = SC_PROPERTYUNDEAD;     break; //10
+			}
 			clif->skill_nodamage(src,bl,skill_id,skill_lv,
 				sc_start2(src,bl,type,100,skill_lv,
 					skill->get_ele(skill_id,skill_lv), skill->get_time(skill_id,skill_lv)));
@@ -7321,6 +7339,8 @@ static int skill_castend_nodamage_id(struct block_list *src, struct block_list *
 				clif->skill_fail(sd, skill_id, USESKILL_FAIL_LEVEL, 0, 0);
 			break;
 		case AS_ENCHANTPOISON: // Prevent spamming [Valaris]
+			//infestRO - can be spammed
+			/*
 			if (sd && dstsd && dstsd->sc.count) {
 				if (dstsd->sc.data[SC_PROPERTYFIRE] ||
 					dstsd->sc.data[SC_PROPERTYWATER] ||
@@ -7335,6 +7355,7 @@ static int skill_castend_nodamage_id(struct block_list *src, struct block_list *
 						break;
 				}
 			}
+			*/
 			clif->skill_nodamage(src,bl,skill_id,skill_lv,
 				sc_start(src,bl,type,100,skill_lv,skill->get_time(skill_id,skill_lv)));
 			break;

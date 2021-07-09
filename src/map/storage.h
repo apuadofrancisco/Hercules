@@ -35,6 +35,7 @@ enum storage_flag {
 	STORAGE_FLAG_CLOSED = 0, // Closed
 	STORAGE_FLAG_NORMAL = 1, // Normal Storage open
 	STORAGE_FLAG_GUILD  = 2, // Guild Storage open
+	STORAGE_FLAG_NOPERMISSION = 3, //Gstorage no permission
 };
 
 struct storage_interface {

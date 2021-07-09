@@ -64,7 +64,8 @@
 // 20120307 - 2012-03-07aRagexeRE+ - 0x970
 
 #ifndef PACKETVER
-	#define PACKETVER 20190530
+	#define PACKETVER 20181121
+	//#define PACKETVER 20200401
 #endif // PACKETVER
 
 //Uncomment the following line if your client is ragexeRE instead of ragexe (required because of conflicting packets in ragexe vs ragexeRE).
@@ -199,7 +200,7 @@
 //Max number of characters per account. Note that changing this setting alone is not enough if the client is not hexed to support more characters as well.
 #if PACKETVER >= 20100413
 #ifndef MAX_CHARS
-	#define MAX_CHARS 12
+	#define MAX_CHARS 15
 #endif
 #else
 #ifndef MAX_CHARS
@@ -225,7 +226,7 @@
 #endif
 
 #ifndef MAX_LEVEL
-#define MAX_LEVEL 175
+#define MAX_LEVEL 255
 #endif
 #ifndef MAX_FAME
 #define MAX_FAME 1000000000
@@ -262,10 +263,12 @@
 #define MAX_PARTY 12
 #endif
 #ifndef BASE_GUILD_SIZE
-#define BASE_GUILD_SIZE 16               // Base guild members (without GD_EXTENSION)
+//#define BASE_GUILD_SIZE 16               // Base guild members (without GD_EXTENSION)
+#define BASE_GUILD_SIZE 20               // infestRO
 #endif
 #ifndef MAX_GUILD
-#define MAX_GUILD (BASE_GUILD_SIZE+10*6) // Increased max guild members +6 per 1 extension levels [Lupus]
+//#define MAX_GUILD (BASE_GUILD_SIZE+10*6) // Increased max guild members +6 per 1 extension levels [Lupus]
+#define MAX_GUILD (BASE_GUILD_SIZE+10*1) // infestRO - Increased max guild members +1 per 1 extension levels
 #endif
 #ifndef MAX_GUILDPOSITION
 #define MAX_GUILDPOSITION 20             // Increased max guild positions to accomodate for all members [Valaris] (removed) [PoW]
@@ -321,7 +324,7 @@ STATIC_ASSERT(MAX_ACHIEVEMENT_RANKS <= 255, "This value is limited by the client
 #define MAP_NAME_LENGTH_EXT (MAP_NAME_LENGTH + 4)
 
 #ifndef MAX_FRIENDS
-#define MAX_FRIENDS 40
+#define MAX_FRIENDS 60
 #endif
 #define MAX_MEMOPOINTS 3
 
@@ -1118,7 +1121,8 @@ enum guild_member_info { //Change Member Infos
 enum guild_permission { // Guild permissions
 	GPERM_INVITE = 0x01,
 	GPERM_EXPEL = 0x10,
-	GPERM_ALL = GPERM_INVITE|GPERM_EXPEL,
+	GPERM_STORAGE = 0x100,
+	GPERM_ALL = GPERM_INVITE|GPERM_EXPEL|GPERM_STORAGE,
 	GPERM_MASK = GPERM_ALL,
 };
 
